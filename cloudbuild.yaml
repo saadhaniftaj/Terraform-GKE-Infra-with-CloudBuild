@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/devops-terra-464510/tf-gke-20250727-app-repo/backend:latest', '.']
+  dir: 'app/backend'
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/devops-terra-464510/tf-gke-20250727-app-repo/backend:latest']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'manifests/']
+  env:
+  - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=tf-gke-20250727-gke'
